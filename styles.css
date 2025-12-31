@@ -261,12 +261,12 @@ body {
 .btn-primary {
     background: var(--gradient-1);
     color: white;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(99, 102, 241, 0.4);
+
 }
 
 .btn-secondary {
@@ -1401,7 +1401,7 @@ section {
 .btn-primary {
     background: var(--gradient-1);
     color: white;
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+
 }
 
 .btn-primary:hover {
@@ -1436,7 +1436,7 @@ section {
     background: var(--gradient-1);
     color: white;
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+
 }
 
 /* Resume Action Links */
@@ -1906,7 +1906,7 @@ section {
 
 .research-btn.view:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  
 }
 
 /* Download PDF Button */
@@ -2072,4 +2072,52 @@ section {
     .toast-text p {
         font-size: 13px;
     }
+}
+
+/* Add to styles.css */
+
+/* Modern Send Button */
+.submit-btn {
+    width: 100%;
+    padding: 18px 40px;
+    background: var(--gradient-1);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+
+}
+
+
+.submit-btn:hover {
+    transform: translateY(6px);
+ 
+}
+
+.submit-btn:active {
+    transform: translateY(-1px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.submit-btn i {
+    font-size: 18px;
+    transition: transform 0.3s;
+}
+
+.submit-btn:hover i {
+    transform: translateX(6px);
 }
