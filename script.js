@@ -337,3 +337,88 @@ gsap.to('.blob-3', {
         scrub: 1
     }
 });
+
+// Contact Form Handler - Web3Forms
+document.addEventListener('DOMContentLoaded', function() {
+    
+    const form = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = form.querySelector('.submit-btn');
+            const btnSpan = submitBtn.querySelector('span');
+            const originalText = btnSpan.textContent;
+            
+            // Show loading
+            btnSpan.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            formMessage.innerHTML = '';
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                // Submit to Web3Forms
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Show success message
+                    formMessage.innerHTML = `
+                        <div class="form-success-toast">
+                            <div class="toast-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="toast-text">
+                                <h4>Message Sent!</h4>
+                                <p>Form submitted successfully</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        formMessage.innerHTML = '';
+                    }, 5000);
+                    
+                } else {
+                    throw new Error('Submission failed');
+                }
+                
+            } catch (error) {
+                // Show error message
+                formMessage.innerHTML = `
+                    <div class="form-error-toast">
+                        <div class="toast-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="toast-text">
+                            <h4>Error!</h4>
+                            <p>Please try again or email directly</p>
+                        </div>
+                    </div>
+                `;
+                
+                console.error('Error:', error);
+            } finally {
+                // Reset button
+                btnSpan.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});

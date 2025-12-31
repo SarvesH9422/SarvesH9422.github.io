@@ -512,14 +512,14 @@
 <!-- Publication 1: IntelliView -->
 <div class="research-actions-wrapper">
     <div class="research-actions">
-        <a href="https://drive.google.com/file/d/YOUR_FILE_ID_1/preview" 
+        <a href="https://drive.google.com/file/d/1CITpRMH9XV_o9C8IfBQNIiblcp5PZ7OJ/preview" 
            target="_blank" 
            rel="noopener noreferrer" 
            class="research-btn view">
             <i class="fas fa-eye"></i>
             View Paper
         </a>
-        <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_1" 
+        <a href="https://drive.google.com/uc?export=download&id=1CITpRMH9XV_o9C8IfBQNIiblcp5PZ7OJ" 
            class="research-btn download" 
            download>
             <i class="fas fa-download"></i>
@@ -599,14 +599,14 @@
 <!-- Publication 2: COVID-19 Detection -->
 <div class="research-actions-wrapper">
     <div class="research-actions">
-        <a href="https://drive.google.com/file/d/YOUR_FILE_ID_2/preview" 
+        <a href="https://drive.google.com/file/d/1J7FfD0obB3TteTgFQ7wHgZvRf5laJcYv/preview" 
            target="_blank" 
            rel="noopener noreferrer" 
            class="research-btn view">
             <i class="fas fa-eye"></i>
             View Paper
         </a>
-        <a href="https://drive.google.com/uc?export=download&id=YOUR_FILE_ID_2" 
+        <a href="https://drive.google.com/uc?export=download&id=1J7FfD0obB3TteTgFQ7wHgZvRf5laJcYv" 
            class="research-btn download" 
            download>
             <i class="fas fa-download"></i>
@@ -808,7 +808,10 @@
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
-                    <form class="contact-form" id="contactForm">
+                        <form id="contact-form" class="contact-form">
+                            <input type="hidden" name="access_key" value="30aa8543-773b-4f05-a0b5-18da7b1b8059">
+                            <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
                         <div class="form-group">
                             <input type="text" id="name" name="name" required>
                             <label for="name">Your Name</label>
@@ -825,10 +828,14 @@
                             <textarea id="message" name="message" rows="5" required></textarea>
                             <label for="message">Message</label>
                         </div>
-                        <button type="submit" class="btn btn-primary">
-                            <span>Send Message</span>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary submit-btn">
                             <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
                         </button>
+    
+                        <!-- Success Message (appears below form) -->
+                        <div id="form-message"></div>
                     </form>
 
                     <!-- Social Links -->
@@ -872,5 +879,95 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Contact Form Script - Add before </body> -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const formMessage = document.getElementById('form-message');
+    
+    if (form) {
+        form.addEventListener('submit', async function(e) {
+            // PREVENT DEFAULT - This is what's missing!
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const submitBtn = form.querySelector('.submit-btn');
+            const btnSpan = submitBtn.querySelector('span');
+            const originalText = btnSpan ? btnSpan.textContent : 'Send Message';
+            
+            // Show loading
+            if (btnSpan) btnSpan.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            formMessage.innerHTML = '';
+            
+            // Get form data
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                // Submit to Web3Forms
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Success message
+                    formMessage.innerHTML = `
+                        <div class="form-success-toast">
+                            <div class="toast-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="toast-text">
+                                <h4>Message Sent!</h4>
+                                <p>Form submitted successfully</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Reset form
+                    form.reset();
+                    
+                    // Auto-hide after 5 seconds
+                    setTimeout(() => {
+                        formMessage.innerHTML = '';
+                    }, 5000);
+                    
+                } else {
+                    throw new Error('Failed to send');
+                }
+                
+            } catch (error) {
+                // Error message
+                formMessage.innerHTML = `
+                    <div class="form-error-toast">
+                        <div class="toast-icon">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="toast-text">
+                            <h4>Error!</h4>
+                            <p>Please try again or email directly</p>
+                        </div>
+                    </div>
+                `;
+                console.error('Error:', error);
+            } finally {
+                // Reset button
+                if (btnSpan) btnSpan.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+});
+</script>
+
+
 </body>
 </html>
