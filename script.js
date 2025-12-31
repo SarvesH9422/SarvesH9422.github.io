@@ -120,14 +120,14 @@ function animateCounter(el) {
 gsap.from('.hero-label', {
     opacity: 0,
     y: 50,
-    duration: 1,
+    duration: 0.3,
     delay: 0.3
 });
 
 gsap.from('.name-line', {
     opacity: 0,
     y: 100,
-    duration: 1,
+    duration: 0.3,
     stagger: 0.2,
     delay: 0.5
 });
@@ -135,14 +135,14 @@ gsap.from('.name-line', {
 gsap.from('.hero-subtitle', {
     opacity: 0,
     y: 50,
-    duration: 1,
+    duration: 0.3,
     delay: 1
 });
 
 gsap.from('.hero-description', {
     opacity: 0,
     y: 50,
-    duration: 1,
+    duration: 0.3,
     delay: 1.2
 });
 
@@ -165,7 +165,7 @@ gsap.from('.social-icon', {
 gsap.from('.gradient-blob', {
     opacity: 0,
     scale: 0,
-    duration: 1.5,
+    duration: 1,
     stagger: 0.3,
     delay: 0.5
 });
@@ -191,7 +191,7 @@ gsap.from('.about-text p', {
     },
     opacity: 0,
     x: -50,
-    duration: 0.8,
+    duration: 0.3,
     stagger: 0.2
 });
 
@@ -215,7 +215,7 @@ gsap.from('.image-placeholder', {
         start: 'top 80%',
     },
     opacity: 0,
-    scale: 0.8,
+    scale: 0.3,
     duration: 1
 });
 
@@ -227,7 +227,7 @@ gsap.from('.timeline-item', {
     },
     opacity: 0,
     x: -100,
-    duration: 0.8,
+    duration: 0.3,
     stagger: 0.3
 });
 
