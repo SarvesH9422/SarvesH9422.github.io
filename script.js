@@ -279,19 +279,19 @@ function animateCounter(el) {
 //     stagger: 0.2
 // });
 
-// gsap.from('.stat-item', {
-//     scrollTrigger: {
-//         trigger: '.about-stats',
-//         start: 'top 80%',
-//         onEnter: () => {
-//             document.querySelectorAll('.stat-number').forEach(animateCounter);
-//         }
-//     },
-//     opacity: 0,
-//     y: 50,
-//     duration: 0.8,
-//     stagger: 0.2
-// });
+gsap.from('.stat-item', {
+    scrollTrigger: {
+        trigger: '.about-stats',
+        start: 'top 80%',
+        onEnter: () => {
+            document.querySelectorAll('.stat-number').forEach(animateCounter);
+        }
+    },
+    opacity: 0,
+    y: 50,
+    duration: 0.8,
+    stagger: 0.2
+});
 
 // gsap.from('.image-placeholder', {
 //     scrollTrigger: {
