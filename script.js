@@ -117,58 +117,58 @@ function animateCounter(el) {
 
 // GSAP Animations
 // Hero Section
-gsap.from('.hero-label', {
-    opacity: 0,
-    y: 50,
-    duration: 0.3,
-    delay: 0.3
-});
+// gsap.from('.hero-label', {
+//     opacity: 0,
+//     y: 50,
+//     duration: 0.3,
+//     delay: 0.3
+// });
 
-gsap.from('.name-line', {
-    opacity: 0,
-    y: 100,
-    duration: 0.3,
-    stagger: 0.2,
-    delay: 0.5
-});
+// gsap.from('.name-line', {
+//     opacity: 0,
+//     y: 100,
+//     duration: 0.3,
+//     stagger: 0.2,
+//     delay: 0.5
+// });
 
-gsap.from('.hero-subtitle', {
-    opacity: 0,
-    y: 50,
-    duration: 0.3,
-    delay: 1
-});
+// gsap.from('.hero-subtitle', {
+//     opacity: 0,
+//     y: 50,
+//     duration: 0.3,
+//     delay: 1
+// });
 
-gsap.from('.hero-description', {
-    opacity: 0,
-    y: 50,
-    duration: 0.3,
-    delay: 1.2
-});
+// gsap.from('.hero-description', {
+//     opacity: 0,
+//     y: 50,
+//     duration: 0.3,
+//     delay: 1.2
+// });
 
-gsap.from('.hero-buttons .btn', {
-    opacity: 0,
-    y: 50,
-    duration: 0.8,
-    stagger: 0.2,
-    delay: 1.4
-});
+// gsap.from('.hero-buttons .btn', {
+//     opacity: 0,
+//     y: 50,
+//     duration: 0.8,
+//     stagger: 0.2,
+//     delay: 1.4
+// });
 
-gsap.from('.social-icon', {
-    opacity: 0,
-    scale: 0,
-    duration: 0.5,
-    stagger: 0.1,
-    delay: 1.6
-});
+// gsap.from('.social-icon', {
+//     opacity: 0,
+//     scale: 0,
+//     duration: 0.5,
+//     stagger: 0.1,
+//     delay: 1.6
+// });
 
-gsap.from('.gradient-blob', {
-    opacity: 0,
-    scale: 0,
-    duration: 1,
-    stagger: 0.3,
-    delay: 0.5
-});
+// gsap.from('.gradient-blob', {
+//     opacity: 0,
+//     scale: 0,
+//     duration: 1,
+//     stagger: 0.3,
+//     delay: 0.5
+// });
 
 // Section Animations
 // gsap.utils.toArray('section').forEach(section => {
