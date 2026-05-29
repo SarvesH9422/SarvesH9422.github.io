@@ -83,6 +83,8 @@
 
         html {
             /* scroll-behavior: smooth; (Removed in favor of faster GSAP scrolling) */
+            overflow-x: hidden;
+            width: 100%;
         }
 
         body {
@@ -91,6 +93,8 @@
             color: var(--on-surface);
             line-height: 1.5;
             overflow-x: hidden;
+            width: 100%;
+            position: relative;
             transition: background-color var(--transition), color var(--transition);
         }
 
@@ -406,8 +410,9 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100vh;
+            height: 100dvh;
             z-index: -1;
             background: radial-gradient(circle at var(--grad-x1, 0%) var(--grad-y1, 0%), var(--primary-container) 0%, transparent 60%),
                 radial-gradient(circle at var(--grad-x2, 100%) var(--grad-y2, 100%), var(--secondary-container) 0%, transparent 60%);
@@ -815,6 +820,17 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            
+            .hero {
+                min-height: auto;
+                padding-top: 100px;
+                padding-bottom: 40px;
+            }
+
+            .hero-visual {
+                min-height: 300px !important;
+                margin-top: 20px;
+            }
 
             .hero-grid,
             .about-grid,
