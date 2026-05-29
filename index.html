@@ -316,18 +316,19 @@
         section {
             padding: 40px 0;
             scroll-margin-top: 72px;
+            overflow: hidden;
         }
 
         /* Scroll Animations */
         .reveal {
             opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            transition: opacity 0.4s ease-out, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .reveal.is-visible {
             opacity: 1;
-            transform: translateY(0) scale(1);
+            transform: translateY(0);
         }
 
         .stagger-1 {
@@ -814,8 +815,11 @@
             padding: 40px 0;
             text-align: center;
             border-top: 1px solid var(--surface-2);
+            background-color: var(--surface-0);
             color: var(--on-surface-variant);
             font-size: 0.875rem;
+            position: relative;
+            z-index: 1;
         }
 
         /* Responsive */
@@ -880,9 +884,54 @@
                 font-size: 2.5rem;
             }
 
+            .hero-chips {
+                flex-wrap: wrap;
+            }
+
             .floating-card {
                 padding: 24px;
                 gap: 16px;
+            }
+
+            .container {
+                padding: 0 16px;
+            }
+
+            section {
+                padding: 32px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-tagline {
+                font-size: 1rem;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .hero-ctas .btn-filled,
+            .hero-ctas .btn-outlined {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-visual {
+                min-height: 250px !important;
+            }
+
+            .bento-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .certifications-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -1393,44 +1442,7 @@
             themeIcon.textContent = newTheme === 'light' ? 'dark_mode' : 'light_mode';
         });
 
-        // App Bar Scroll Effect
-        const appBar = document.getElementById('appBar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 10) {
-                appBar.classList.add('scrolled');
-            } else {
-                appBar.classList.remove('scrolled');
-            }
-        });
 
-        // Dynamic Gradient Scroll Effect
-        const dynamicBg = document.querySelector('.dynamic-bg');
-
-        window.addEventListener('scroll', () => {
-            // Shift the gradient background position based on scroll
-            const scrollPerc = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            const bgPosX = 50 + (scrollPerc * 50); // Shifts slowly 
-            const bgPosY = 50 + (scrollPerc * 50);
-
-            dynamicBg.style.backgroundPosition = `${bgPosX}% ${bgPosY}%`;
-        });
-
-        // GSAP Smooth Scrolling for Anchor Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return; // Skip empty anchors
-                const target = document.querySelector(targetId);
-                if (target) {
-                    e.preventDefault();
-                    gsap.to(window, {
-                        duration: 1.2,
-                        scrollTo: { y: target, offsetY: 72 }, // Accounts for app bar height
-                        ease: "power3.inOut"
-                    });
-                }
-            });
-        });
 
         // 3D Particle Sphere using Three.js
         const init3DBall = () => {
@@ -1674,8 +1686,8 @@
         // Intersection Observer for Reveal Animations
         const observerOptions = {
             root: null,
-            rootMargin: '0px',
-            threshold: 0.15
+            rootMargin: '0px 0px 100px 0px',
+            threshold: 0.05
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
@@ -1708,7 +1720,7 @@
             }
         });
 
-        // Fast Smooth Scrolling via GSAP & Menu Closing
+        // Smooth Navigation via GSAP & Menu Closing
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -1725,39 +1737,56 @@
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     gsap.to(window, {
-                        duration: 0.35, // Snappy fast scroll regardless of distance
-                        scrollTo: { y: targetElement, offsetY: 72 },
-                        ease: "power2.inOut"
+                        duration: 0.6, 
+                        scrollTo: { y: targetElement, offsetY: 72, autoKill: false },
+                        ease: "power2.out",
+                        onComplete: () => {
+                            // Silently update the URL hash so navigation truly completes
+                            if (history.pushState) {
+                                history.pushState(null, null, targetId);
+                            }
+                        }
                     });
                 }
             });
         });
 
-        // Dynamic Gradient on Scroll (Optimized)
-        let isScrolling = false;
+        // Unified Scroll Handler (single listener for performance)
+        const appBar = document.getElementById('appBar');
+        const bgElement = document.querySelector('.dynamic-bg');
+        let ticking = false;
+
         window.addEventListener('scroll', () => {
-            if (!isScrolling) {
+            if (!ticking) {
                 window.requestAnimationFrame(() => {
-                    const bg = document.querySelector('.dynamic-bg');
-                    if (bg) {
-                        const scrollY = window.scrollY;
+                    const scrollY = window.scrollY;
+
+                    // App bar background on scroll
+                    if (scrollY > 10) {
+                        appBar.classList.add('scrolled');
+                    } else {
+                        appBar.classList.remove('scrolled');
+                    }
+
+                    // Dynamic gradient shift
+                    if (bgElement) {
                         const maxScroll = document.body.scrollHeight - window.innerHeight;
                         const scrollPercent = maxScroll > 0 ? scrollY / maxScroll : 0;
 
-                        // Animate gradients dynamically based on scroll percentage
                         const x1 = Math.min(100, scrollPercent * 60);
                         const y1 = Math.min(100, scrollPercent * 80);
                         const x2 = Math.max(0, 100 - (scrollPercent * 60));
                         const y2 = Math.max(0, 100 - (scrollPercent * 80));
 
-                        bg.style.setProperty('--grad-x1', `${x1}%`);
-                        bg.style.setProperty('--grad-y1', `${y1}%`);
-                        bg.style.setProperty('--grad-x2', `${x2}%`);
-                        bg.style.setProperty('--grad-y2', `${y2}%`);
+                        bgElement.style.setProperty('--grad-x1', `${x1}%`);
+                        bgElement.style.setProperty('--grad-y1', `${y1}%`);
+                        bgElement.style.setProperty('--grad-x2', `${x2}%`);
+                        bgElement.style.setProperty('--grad-y2', `${y2}%`);
                     }
-                    isScrolling = false;
+
+                    ticking = false;
                 });
-                isScrolling = true;
+                ticking = true;
             }
         });
     </script>
